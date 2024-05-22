@@ -1,0 +1,27 @@
+public class Path{
+    private ArrayList <Line> arrline = new ArrayList<>();
+    private double Rlength;
+    private double Rx;
+    private double Ry;
+    private double Rangle;
+
+    public Path(ArrayList <Line> list){ //CONSTRUCTOR (ARR)
+        
+        arrline = list;
+
+        for(int j = 0; j < arrline.size(); j++){
+            Rx += Math.cos(Math.toRadians(arrline.get(j).getAngle())) * arrline.get(j).getLength();
+            Ry += Math.sin(Math.toRadians(arrline.get(j).getAngle())) * arrline.get(j).getLength();
+        }
+
+        Rlength = Math.sqrt(Math.pow(Rx,2) + Math.pow(Rx,2));
+
+        Rangle = Math.toDegrees(Math.atan(Ry/Rx));
+    }
+    public double getResLength(){
+        return Rlength;
+    }
+    public double getResAngle(){
+        return Rangle;
+    }
+}
