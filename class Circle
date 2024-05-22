@@ -1,0 +1,35 @@
+public class Circle{
+    private Point center;
+    private double radius;
+    public final double pi = Math.PI;
+
+    public Circle(Line l1){ //CONSTRUCTOR
+        center = l1.getPoint1();
+        radius = l1.getLength();
+    }
+    public Circle(Point p1, double len){ //CONSTRUCTOR 
+        center = p1;
+        radius = len;
+    }
+    public double getCircumference(){ //RETURNS CIRCUMFERENCE
+        return 2 * pi * radius;
+    }
+    public double getArea(){ //RETURNS AREA
+        return pi * Math.pow(radius,2);
+    }
+    public Point getCenter(){ //RETURNS CENTER
+        return center;
+    }
+    public double getRadius(){ //RETURNS RADIUS
+        return radius;
+    }
+    public boolean liesOnCircle(Point target){ //POINT TESTER
+        Line tester = new Line(center,target);
+        if(tester.getLength() <= radius){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+}
