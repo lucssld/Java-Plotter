@@ -1,4 +1,4 @@
-class Line{
+public class Line{
     private Point p1;
     private Point p2;
     private PrecisePoint pp1;
