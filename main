@@ -1,0 +1,302 @@
+import java.util.*; //Scanner and Math
+
+class Main{
+    public static void main(String[] args) { //MAIN
+        Scanner scan = new Scanner(System.in);
+        System.out.println("*** Welcome to the plotter ***");
+        System.out.println("What would you like to plot?");
+        System.out.println("[1] Point / [2] Line / [3] Circle / [4] Vector Path / [5] 3D Plotting ");
+        int start = scan.nextInt();
+
+        if(start == 1){ //POINT
+            System.out.println("enter x then y:");
+            int xpoint = scan.nextInt();
+            int ypoint = scan.nextInt();
+            Point p1p = new Point(xpoint, ypoint);
+            int respp = 0;
+
+            while(respp != 4){ //LOOP FOR POINT MENU
+                System.out.println("What would you like to do?");
+                System.out.println("[1] Graph / [2] Edit / [3] Add point (turn into line) / [4] quit");
+                respp = scan.nextInt();
+
+                if(respp == 1){ //GRAPH POINT
+                    GraphPrinter.printGraph(p1p);
+                }
+
+                if(respp == 2){ //EDIT POINT
+                    System.out.println("Enter new x and y:");
+                    int newx = scan.nextInt();
+                    int newy = scan.nextInt();
+                    p1p.changeX(newx);
+                    p1p.changeY(newy);
+                }
+                
+                if(respp == 3){ //POINT TO LINE
+                    System.out.println("Enter your additional point (x then y)");
+                    int newx = scan.nextInt();
+                    int newy = scan.nextInt();
+                    Point p2p = new Point(newx,newy);
+                    Line lpoint = new Line(p1p,p2p);
+                    int respl = 0;
+                    while(respl != 4){ //LOOP FOR POINT TO LINE MENU
+
+                        System.out.println("What would you like to do?");
+                        System.out.println("[1] graph / [2] calculate / [3] to circle (first point becomes center) / [4] reset"); //MENU
+                        respl = scan.nextInt();
+
+                        if(respl == 1){ //GRAPH LINE
+                            GraphPrinter.printGraph(lpoint);
+                        }
+
+                        if(respl == 2){ //CALCULATE LINE
+                            System.out.println("What would you like to calculate?");
+                            System.out.println("[1] Length / [2] Midpoint / [3] Angle / [4] back");
+                            int resplCalc = scan.nextInt();
+
+                            if(resplCalc == 1){ //GET LENGTH LINE
+                                System.out.println("The length of your line is: " + lpoint.getLength());
+                            }
+
+                            if(resplCalc == 2){ //GET MIDPOINT LINE
+                                System.out.println("The midpoint of your line is: (" + lpoint.getMidX() + "," + lpoint.getMidY() + ")");
+                            }
+
+                            if(resplCalc == 3){ //GET ANGLE LINE
+                                System.out.println("The angle of your line, relative to the x-axis, is: " + lpoint.getAngle());
+                            }
+
+                            if(resplCalc == 4){ //BACK TO POINT MENU
+                                continue;
+                            }
+                        }   
+                    
+                    
+                        if(respl == 3){ //LINE TO CIRCLE
+                            Circle cline = new Circle(lpoint);
+                            System.out.println("What would you like to do with your new circle?");
+                            System.out.println("[1] graph / [2] calculate / [3] point checker (if point is in/on circle) / [4] back");
+                            int respcir = scan.nextInt();
+
+                            if(respcir == 1){ //GRAPH CIRCLE
+                                GraphPrinter.printGraph(cline);
+                            }
+
+                            if(respcir == 2){ //CALCULATE CIRCLE
+                                System.out.println("What would you like to calculate?");
+                                System.out.println("[1] Circumference / [2] Area");
+                                int repcircalc = scan.nextInt();
+
+                                if(repcircalc == 1){ //GET CIRCUMFERENCE
+                                    System.out.println("The circumference is: " +cline.getCircumference());
+                                }
+                                
+                                if(repcircalc == 2){ //GET AREA
+                                    System.out.println("the area is " + cline.getArea());
+                                }
+                                if(respcir == 3){ //POINT CHECKER
+                                    System.out.println("Enter the x then y coords for the point");
+                                    int xtest = scan.nextInt();
+                                    int ytest = scan.nextInt();
+                                    Point tester = new Point(xtest,ytest);
+
+                                    if(cline.liesOnCircle(tester)){
+                                        System.out.println("The point DOES lie within the circle:");
+                                    }
+
+                                    else{
+                                        System.out.println("The point DOES NOT lie within the circle:");
+                                    }
+                                }
+
+                                
+                                if(repcircalc == 4){ //BACK TO POINT MENU
+                                    continue;
+                                }
+                                
+                            }
+                        }
+
+                        if(respl == 4){ 
+                            break;
+                        }
+                    }
+                }
+                if(respp == 4){ //QUIT
+                    break;
+                }
+            }
+        }
+
+        if(start == 2){ //LINE
+            System.out.println("enter first point(x then y):");
+            int X1 = scan.nextInt();
+            int Y1 = scan.nextInt();
+            Point p1l = new Point(X1,Y1);    // <--- Instanciates 2 points 
+            System.out.println("enter second point:");
+            int X2 = scan.nextInt();
+            int Y2 = scan.nextInt();
+            Point p2l = new Point(X2,Y2);
+            Line L1 = new Line(p1l, p2l);    // <--- Line from the 2 points
+            int respl = 0;
+            while(respl != 4){
+                    
+                System.out.println("What would you like to do?");
+                System.out.println("[1] graph / [2] calculate / [3] to circle (first point becomes center) / [4] reset"); //MENU
+                respl = scan.nextInt();
+
+                if(respl == 1){ //GRAPH LINE
+                    GraphPrinter.printGraph(L1);
+                }
+
+                if(respl == 2){ //CALCULATE LINE
+                    System.out.println("What would you like to calculate?");
+                    System.out.println("[1] Length / [2] Midpoint / [3] Angle");
+                    int resplCalc = scan.nextInt();
+
+                    if(resplCalc == 1){ //GET LENGTH
+                        System.out.println("The length of your line is: " + L1.getLength());
+                    }
+                    if(resplCalc == 2){ //GET MIDPOINT
+                        System.out.println("The midpoint of your line is: (" + L1.getMidX() + "," + L1.getMidY() + ")");
+                    }
+                    if(resplCalc == 3){ //GET ANGLE
+                        System.out.println("The angle of your line, relative to the x-axis, is: " + L1.getAngle());
+                    }
+                }
+                
+                if(respl == 3){ //LINE TO CIRCLE
+                    Circle cline = new Circle(L1);
+                    System.out.println("What would you like to do with your new circle?");
+                    System.out.println("[1] graph / [2] calculate / [3] point checker (if point is in/on circle) / [4] reset");
+                    int respcir = scan.nextInt();
+
+                    if(respcir == 1){ //GRAPH CIRCLE
+                        GraphPrinter.printGraph(cline);
+                    }
+
+                    if(respcir == 2){ //CALCULATE CIRCLE
+                        System.out.println("What would you like to calculate?");
+                        System.out.println("[1] Circumference / [2] Area");
+                        int repcircalc = scan.nextInt();
+
+                        if(repcircalc == 1){ //GET CIRCUMFERENCE
+                            System.out.println("The circumference is: " +cline.getCircumference());
+                        }
+                        
+                        if(repcircalc == 2){ //GET AREA
+                            System.out.println("the area is " + cline.getArea());
+                        }
+                    }
+                    if(respcir == 3){ //POINT CHECKER
+                        System.out.println("Enter the x then y coords for the Point");
+                        int xtest = scan.nextInt();
+                        int ytest = scan.nextInt();
+                        Point tester = new Point(xtest,ytest);
+
+                        if(cline.liesOnCircle(tester)){
+                            System.out.println("The Point DOES lie within the circle:");
+                        }
+
+                        else{
+                            System.out.println("The Point DOES NOT lie within the circle:");
+                        }
+                    }
+                }
+
+                if(respl == 4){
+                    break;
+                }
+
+            }
+        }
+        
+        if(start == 3){ //CIRCLE
+
+            System.out.println("Enter the x then y coords for the center:");
+            int xcir = scan.nextInt();
+            int ycir = scan.nextInt();
+            Point pcir = new Point(xcir, ycir);
+            System.out.println("Enter the length of the radius:");
+            int radcir = scan.nextInt();
+            Circle c1 = new Circle(pcir, radcir);
+            int respcir = 0;
+            while(respcir != 4){
+
+                System.out.println("What would you like to do?");
+                System.out.println("[1] graph / [2] calculate / [3] Point checker (if Point is in/on circle) / [4] quit");
+                respcir = scan.nextInt();
+
+                if(respcir == 1){ //GRAPH CIRCLE
+                    GraphPrinter.printGraph(c1);
+                }
+
+                if(respcir == 2){ //CALCULATE CIRCLE
+                    System.out.println("What would you like to calculate?");
+                    System.out.println("[1] Circumference / [2] Area");
+                    int repcircalc = scan.nextInt();
+
+                    if(repcircalc == 1){ //GET CIRCUMFERENCE
+                        System.out.println("The circumference is: " +c1.getCircumference());
+                    }
+                    
+                    if(repcircalc == 2){ //GET AREA
+                        System.out.println("the area is " + c1.getArea());
+                    }
+                }
+
+                if(respcir == 3){ //POINT CHECKER
+                    System.out.println("Enter the x then y coords for the Point");
+                    int xtest = scan.nextInt();
+                    int ytest = scan.nextInt();
+                    Point tester = new Point(xtest,ytest);
+
+                    if(c1.liesOnCircle(tester)){
+                        System.out.println("The Point DOES lie within the circle:");
+                    }
+
+                    else{
+                        System.out.println("The Point DOES NOT lie within the circle:");
+                    }
+                }
+
+                if(respcir == 4){ //QUIT
+                    break;
+                }
+            }
+        }
+ 
+        if(start == 4){ //VECTOR PATH
+            System.out.println("Enter your start Point (x then y):");
+            double xv = scan.nextDouble();
+            double yv = scan.nextDouble();
+            PrecisePoint pv = new PrecisePoint(xv,yv);
+            double deg = 0;
+            ArrayList <Line> arrpath = new ArrayList<>();
+
+            for(int i = 0; i < 10; i++){
+                System.out.println("Enter your direction (degrees: N is 90) and magnitude or enter -1 to end:");
+
+                deg = scan.nextDouble();
+
+                if(deg == -1){ //END
+                    break;
+                }
+
+                double mag = scan.nextDouble();
+
+                Line temp = new Line(pv, deg, mag);
+                arrpath.add(temp);
+                pv = temp.getPPoint2();
+                
+            }
+
+            Path p = new Path(arrpath);
+
+
+            System.out.println("Displacement Length = " + p.getResLength());
+            System.out.println("Displacement Angle = " + p.getResAngle());
+
+        }
+    }
+}
