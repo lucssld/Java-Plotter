@@ -1,0 +1,58 @@
+class Line{
+    private Point p1;
+    private Point p2;
+    private PrecisePoint pp1;
+    private PrecisePoint pp2;
+    private double angle;
+    private double length;
+    
+    public Line(Point Point1, Point Point2){ //CONSTRUCTOR (Point, Point)
+        p1 = Point1;
+        p2 = Point2;
+
+        int x1 = p1.getPointX();
+        int y1 = p1.getPointY();
+        int x2 = p2.getPointX();
+        int y2 = p2.getPointY();
+        length = (double) Math.sqrt((Math.pow((x2-x1), 2) + Math.pow((y2-y1), 2))); //CALCULATES AND SETS LENGTH AND ANGLE
+
+        angle = Math.toDegrees(Math.asin( (p2.getPointY() - p1.getPointY()) / length)); // ||
+    }
+
+    public Line(PrecisePoint p, double a, double l){ //CONSTRUCTOR (POINT, ANGLE, LENGTH)
+        pp1 = p;
+        angle = a;
+        length = l;
+        double xp =  Math.toDegrees(l * Math.cos(a));
+        double yp =  Math.toDegrees(l * Math.sin(a));
+        PrecisePoint t = new PrecisePoint(xp + p1.getPointX(), yp + p1.getPointY());
+        pp2 = t;
+    }
+    public double getLength(){ //RETURNS LENGTH
+        return length;
+    }
+    public double getMidX(){ //X MIDPOINT
+        int x1 = p1.getPointX();
+        int x2 = p2.getPointX();
+
+        return (double) (x1 + x2)/2;
+    }
+    public double getMidY(){ //Y MIDPOINT
+        int y1 = p1.getPointY();
+        int y2 = p2.getPointY();
+
+        return (double) (y1 + y2)/2;
+    }
+    public double getAngle(){ //RETURNS ANGLE
+        return angle;
+    }
+    public Point getPoint1(){ //RETURNS FIRST POINT
+        return p1;
+    }
+    public Point getPoint2(){ //RETURNS SECOND POINT
+        return p2;
+    }
+    public PrecisePoint getPPoint2(){ //RETURNS SECOND POINT
+        return pp2;
+    }
+}
