@@ -32,7 +32,7 @@ class Main{
                     p1p.changeX(newx);
                     p1p.changeY(newy);
                 }
-                
+
                 if(respp == 3){ //POINT TO LINE
                     System.out.println("Enter your additional point (x then y)");
                     int newx = scan.nextInt();
@@ -70,9 +70,9 @@ class Main{
                             if(resplCalc == 4){ //BACK TO POINT MENU
                                 continue;
                             }
-                        }   
-                    
-                    
+                        }
+
+
                         if(respl == 3){ //LINE TO CIRCLE
                             Circle cline = new Circle(lpoint);
                             System.out.println("What would you like to do with your new circle?");
@@ -91,7 +91,7 @@ class Main{
                                 if(repcircalc == 1){ //GET CIRCUMFERENCE
                                     System.out.println("The circumference is: " +cline.getCircumference());
                                 }
-                                
+
                                 if(repcircalc == 2){ //GET AREA
                                     System.out.println("the area is " + cline.getArea());
                                 }
@@ -110,15 +110,15 @@ class Main{
                                     }
                                 }
 
-                                
+
                                 if(repcircalc == 4){ //BACK TO POINT MENU
                                     continue;
                                 }
-                                
+
                             }
                         }
 
-                        if(respl == 4){ 
+                        if(respl == 4){
                             break;
                         }
                     }
@@ -133,7 +133,7 @@ class Main{
             System.out.println("enter first point(x then y):");
             int X1 = scan.nextInt();
             int Y1 = scan.nextInt();
-            Point p1l = new Point(X1,Y1);    // <--- Instanciates 2 points 
+            Point p1l = new Point(X1,Y1);    // <--- Instanciates 2 points
             System.out.println("enter second point:");
             int X2 = scan.nextInt();
             int Y2 = scan.nextInt();
@@ -141,7 +141,7 @@ class Main{
             Line L1 = new Line(p1l, p2l);    // <--- Line from the 2 points
             int respl = 0;
             while(respl != 4){
-                    
+
                 System.out.println("What would you like to do?");
                 System.out.println("[1] graph / [2] calculate / [3] to circle (first point becomes center) / [4] reset"); //MENU
                 respl = scan.nextInt();
@@ -165,7 +165,7 @@ class Main{
                         System.out.println("The angle of your line, relative to the x-axis, is: " + L1.getAngle());
                     }
                 }
-                
+
                 if(respl == 3){ //LINE TO CIRCLE
                     Circle cline = new Circle(L1);
                     System.out.println("What would you like to do with your new circle?");
@@ -184,7 +184,7 @@ class Main{
                         if(repcircalc == 1){ //GET CIRCUMFERENCE
                             System.out.println("The circumference is: " +cline.getCircumference());
                         }
-                        
+
                         if(repcircalc == 2){ //GET AREA
                             System.out.println("the area is " + cline.getArea());
                         }
@@ -210,7 +210,7 @@ class Main{
                 }
             }
         }
-        
+
         if(start == 3){ //CIRCLE
 
             System.out.println("Enter the x then y coords for the center:");
@@ -239,7 +239,7 @@ class Main{
                     if(repcircalc == 1){ //GET CIRCUMFERENCE
                         System.out.println("The circumference is: " +c1.getCircumference());
                     }
-                    
+
                     if(repcircalc == 2){ //GET AREA
                         System.out.println("the area is " + c1.getArea());
                     }
@@ -265,40 +265,47 @@ class Main{
                 }
             }
         }
- 
+
         if(start == 4){ //VECTOR PATH
             System.out.println("Enter your start Point (x then y):");
             double xv = scan.nextDouble();
             double yv = scan.nextDouble();
-            PrecisePoint pv = new PrecisePoint(xv,yv);
-            double deg = 0;
-            double mag;
-            ArrayList <Line> arrpath = new ArrayList<>();
+            PrecisePoint pv = new PrecisePoint(xv, yv);
 
-            for(int i = 0; i < 10; i++){
+            double deg;
+            double mag;
+            ArrayList<Line> arrpath = new ArrayList<>();
+
+            while (true) { // Infinite loop until user enters -1
                 System.out.println("Enter your direction (degrees: N is 90) and magnitude or enter -1 to end:");
 
                 deg = scan.nextDouble();
-
-                if(deg == -1){ //END
+                if (deg == -1) { // End the input if -1 is entered
                     break;
                 }
 
                 mag = scan.nextDouble();
+                if (mag < 0) {
+                    System.out.println("Magnitude cannot be negative. Try again.");
+                    continue;
+                }
 
                 Line temp = new Line(pv, deg, mag);
                 arrpath.add(temp);
-                pv = temp.getPPoint2();
-                
+                pv = temp.getPPoint2(); // Update to the new endpoint
             }
 
-            Path p = new Path(arrpath);
+            if (!arrpath.isEmpty()) {
+                Path p = new Path(arrpath);
 
+                System.out.println("Displacement Length = " + p.getResLength() + " units");
+                System.out.println("Displacement Angle = " + p.getResAngle() + " degrees");
+                System.out.println("End Point = " + pv.printCoord());
+            }
 
-            System.out.println("Displacement Length = " + p.getResLength());
-            System.out.println("Displacement Angle = " + p.getResAngle());
-            System.out.println("End Point = " + pv.printCoord());
-
+            else {
+                System.out.println("No valid lines were entered.");
+            }
         }
 
         if(start == 5){ //3D PLOTTING
@@ -326,7 +333,7 @@ class Main{
                     Line3d l1 = new Line3d(p1,p2);
                     System.out.println("length = " + l1.getLength());
                 }
-                
+
             }
             if(start3d == 2){ //Line
                 System.out.println("Enter your x, y, and z values for your first point");
@@ -361,10 +368,10 @@ class Main{
 }
 
 class Point{
-    
+
     private int x;
     private int y;
-    
+
     public Point(int xcoord, int ycoord){ //CONSTRUCTOR
         x=xcoord;
         y=ycoord;
@@ -393,7 +400,7 @@ class Line{
     private PrecisePoint pp2;
     private double angle;
     private double length;
-    
+
     public Line(Point Point1, Point Point2){ //CONSTRUCTOR (Point, Point)
         p1 = Point1;
         p2 = Point2;
@@ -407,14 +414,20 @@ class Line{
         angle = Math.toDegrees(Math.asin( (p2.getPointY() - p1.getPointY()) / length)); // ||
     }
 
-    public Line(PrecisePoint p, double a, double l){ //CONSTRUCTOR (POINT, ANGLE, LENGTH)
+    public Line(PrecisePoint p, double a, double l) { // Constructor (PrecisePoint, angle, length)
         pp1 = p;
         angle = a;
         length = l;
-        double dx =  Math.toDegrees(l * Math.cos(a));
-        double dy =  Math.toDegrees(l * Math.sin(a));
-        PrecisePoint t = new PrecisePoint(dx + pp1.getPointX(), dy + pp1.getPointY());
-        pp2 = t;
+
+        // Convert the angle to radians before using trigonometric functions
+        double angleRadians = Math.toRadians(a);
+
+        // Calculate the displacement in x and y
+        double dx = l * Math.cos(angleRadians);
+        double dy = l * Math.sin(angleRadians);
+
+        // Create the second point based on the first point and the displacement
+        pp2 = new PrecisePoint(dx + pp1.getPointX(), dy + pp1.getPointY());
     }
     public double getLength(){ //RETURNS LENGTH
         return length;
@@ -454,7 +467,7 @@ class Circle{
         center = l1.getPoint1();
         radius = l1.getLength();
     }
-    public Circle(Point p1, double len){ //CONSTRUCTOR 
+    public Circle(Point p1, double len){ //CONSTRUCTOR
         center = p1;
         radius = len;
     }
@@ -481,30 +494,31 @@ class Circle{
     }
 }
 
-class Path{
-    private ArrayList <Line> arrline = new ArrayList<>();
+class Path {
+    private ArrayList<Line> arrline = new ArrayList<>();
     private double Rlength;
     private double Rx;
     private double Ry;
     private double Rangle;
 
-    public Path(ArrayList <Line> list){ //CONSTRUCTOR (ARR OF LINES)
-        
-        
-
-        for(int j = 0; j < list.size(); j++){//GOES THROUGH ARR OF LINES
-            Rx += Math.cos(Math.toRadians(list.get(j).getAngle())) * list.get(j).getLength();//CALCULATES DX OR RESULTANT BY ADDING DX VALUES OF EACH LINE
-            Ry += Math.sin(Math.toRadians(list.get(j).getAngle())) * list.get(j).getLength();//CALCULATES DY OR RESULTANT BY ADDING DY VALUES OF EACH LINE
+    public Path(ArrayList<Line> list) { // Constructor (Array of lines)
+        for (int j = 0; j < list.size(); j++) { // Go through array of lines
+            Rx += Math.cos(Math.toRadians(list.get(j).getAngle())) * list.get(j).getLength(); // Calculate dx
+            Ry += Math.sin(Math.toRadians(list.get(j).getAngle())) * list.get(j).getLength(); // Calculate dy
         }
 
-        Rlength = Math.sqrt(Math.pow(Rx,2) + Math.pow(Rx,2));//PYTHAGOREAN THM TO GET RESULTANT LENGTH
+        // Pythagorean theorem to get resultant length
+        Rlength = Math.sqrt(Math.pow(Rx, 2) + Math.pow(Ry, 2));
 
-        Rangle = Math.toDegrees(Math.atan(Ry/Rx));//TAN OF LEGS (OPPOSITE / ADJASENT) TO GET ANGLE
+        // Calculate angle with proper handling for atan2
+        Rangle = Math.toDegrees(Math.atan2(Ry, Rx)); // atan2 handles full range of angles
     }
-    public double getResLength(){
+
+    public double getResLength() {
         return Rlength;
     }
-    public double getResAngle(){
+
+    public double getResAngle() {
         return Rangle;
     }
 }
@@ -547,7 +561,7 @@ class Point3d{
     }
     public int getPointZ(){
         return z;
-    }    
+    }
 }
 
 class Line3d{
@@ -606,8 +620,126 @@ class Sphere{
     }
 }
 
+class GraphPrinter {
+    public static void printGraph(Point p) {
+        char[][] grid = createEmptyGrid();
+        int x = p.getPointX();
+        int y = p.getPointY();
 
+        if (isValidPoint(x, y)) {
+            grid[20 - y][x] = '*';
+        }
 
+        printGrid(grid);
+    }
 
-////////////////////////////////////////////////
+    public static void printGraph(Line l) {
+        char[][] grid = createEmptyGrid();
+        Point p1 = l.getPoint1();
+        Point p2 = l.getPoint2();
 
+        drawLine(grid, p1.getPointX(), p1.getPointY(), p2.getPointX(), p2.getPointY());
+
+        printGrid(grid);
+    }
+
+    public static void printGraph(Circle c) {
+        char[][] grid = createEmptyGrid();
+        Point center = c.getCenter();
+        double radius = c.getRadius();
+
+        drawCircle(grid, center.getPointX(), center.getPointY(), radius);
+
+        printGrid(grid);
+    }
+
+    private static char[][] createEmptyGrid() {
+        char[][] grid = new char[21][21];
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+                if (i == 20) {
+                    grid[i][j] = (j == 20) ? '+' : '-';
+                } else {
+                    grid[i][j] = (j == 20) ? '|' : ' ';
+                }
+            }
+        }
+        return grid;
+    }
+
+    private static boolean isValidPoint(int x, int y) {
+        return x >= 0 && x <= 20 && y >= 0 && y <= 20;
+    }
+
+    private static void drawLine(char[][] grid, int x1, int y1, int x2, int y2) {
+        int dx = Math.abs(x2 - x1);
+        int dy = Math.abs(y2 - y1);
+        int sx = (x1 < x2) ? 1 : -1;
+        int sy = (y1 < y2) ? 1 : -1;
+        int err = dx - dy;
+
+        while (true) {
+            if (isValidPoint(x1, y1)) {
+                grid[20 - y1][x1] = '*';
+            }
+            if (x1 == x2 && y1 == y2) break;
+            int e2 = 2 * err;
+            if (e2 > -dy) {
+                err -= dy;
+                x1 += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y1 += sy;
+            }
+        }
+    }
+
+    private static void drawCircle(char[][] grid, int centerX, int centerY, double radius) {
+        int x = 0;
+        int y = (int) radius;
+        int d = 1 - (int) radius;
+
+        drawCirclePoints(grid, centerX, centerY, x, y);
+        while (x < y) {
+            if (d < 0) {
+                d = d + 2 * x + 3;
+            } else {
+                d = d + 2 * (x - y) + 5;
+                y--;
+            }
+            x++;
+            drawCirclePoints(grid, centerX, centerY, x, y);
+        }
+    }
+
+    private static void drawCirclePoints(char[][] grid, int cx, int cy, int x, int y) {
+        int[][] points = {
+                {cx + x, cy + y}, {cx - x, cy + y}, {cx + x, cy - y}, {cx - x, cy - y},
+                {cx + y, cy + x}, {cx - y, cy + x}, {cx + y, cy - x}, {cx - y, cy - x}
+        };
+
+        for (int[] Point : points) {
+            if (isValidPoint(Point[0], Point[1])) {
+                grid[20 - Point[1]][Point[0]] = '*';
+            }
+        }
+    }
+
+    private static void printGrid(char[][] grid) {
+        for (char[] row : grid) {
+            System.out.println(new String(row));
+        }
+    }
+
+    public static void main(String[] args) {
+        // Create a Point for the center of the circle
+        Point center = new Point(10, 10);  // example coordinates
+
+        // Create a Circle with the center and a radius
+        Circle c1 = new Circle(center, 5);  // example radius
+
+        // Print the circle using GraphPrinter
+        printGraph(c1);
+    }
+}
